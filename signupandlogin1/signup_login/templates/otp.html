@@ -1,0 +1,76 @@
+{%extends 'base.html'%}
+
+
+
+{%block body%}
+<section>
+  <style>
+    .form-label{
+      font-weight: bold;
+    }
+    
+      .errMsg{
+              color: red;
+              margin-bottom: 20px;
+              align-content: center;
+          }
+        .errSuc
+        {
+          color: rgb(9, 255, 0);
+        }
+        .focus1  {
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    border: none;
+    border-bottom: 1.5px solid #d2d2d2;
+    margin: 0 10px;
+  }
+  
+  .focus1 {
+    border-bottom: 1.5px solid deepskyblue;
+    outline: none;
+  }
+  .modal-footer{
+    border: None;
+  }
+  </style>
+  <section class="vh-100" style="background-color: #baccf0;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          
+          <div class="card shadow-2-strong" style="border-radius: 1rem;">
+            <div style="background-color: blue;">
+            <div class="card-body p-2 text-center">
+             <h3 class="mb-5">OTP verification</h3>
+            </div>
+          </div>
+          
+          <form id="verifyotp"  action="{% url 'verify_otp' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label class="col-lg-12 col-form-label form-control-label"> We have sent a verification code to your mobile number </label>                    
+            </div>
+            <div id='inputs' name="otp">
+              <input id='input1'  name="otp1" type='text' class="focus1" maxLength="1" />
+              <input id='input2'  name="otp2" type='text' class="focus1"  maxLength="1" />
+              <input id='input3'  name="otp3" type='text' class="focus1" maxLength="1" />
+              <input id='input4'  name="otp4" type='text' class="focus1" maxLength="1" />
+            </div>
+            <input type="hidden" value="{{user.id}}" name="user_id">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" value="submit" class="btn btn-primary">submit</button>
+              </div>
+
+        </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
+  {% endblock %}

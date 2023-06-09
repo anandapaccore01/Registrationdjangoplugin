@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+
+
+{% block body %}
+    <style>
+        .gradient-custom{
+            background-color:  rgba(105, 90, 20, 0.158);
+        }
+        .errMsg{
+            color: red;
+            margin-bottom: 20px;
+        }
+    </style>
+
+<body>
+    <section class="vh-150" style="background-color: #baccf0;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-10">
+              <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                <div style="background-color: blue;">
+                    <div class="card-body p-2 text-center">
+                      
+                      <h3 class="mb-5">Registration</h3>
+                    </div>
+                    </div>
+                    {%if messages %}
+              <ul class="messages"></ul>
+              {% for message in messages %}
+              {% if message.tags == 'success' %}
+                <div class="alert alert-success">{{message}}</div>
+                {% endif %}
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger">{{message}}</div>
+                {% endif %}
+                {% if message.tags == 'info' %}
+                <div class="alert alert-success">{{message}}</div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                    <form  id="Registerform" name="Registerform"  method="POST">
+                        {% csrf_token %}
+                   <div class="col-12">
+                    <div class="col-6">
+                        <div class="form-outline mb-4">                    
+                            <label class="form-label">Frist Name:</label>
+                            <input type="text" name="first_name" placeholder="First Name" size="100%" />
+                            {%if form.errors %}
+                            <div class="errMsg">{{form.errors.first_name}}</div>
+                            {% endif %}
+                          </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-outline mb-4">                    
+                            <label class="form-label">Last Name:</label>
+                            <input type="text" name="last_name" placeholder="Last Name" size="100%" />
+                            {%if form.errors %}
+                            <div class="errMsg">{{form.errors.last_name}}</div>
+                            {% endif %}
+                          </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-outline mb-4">
+                            <label class="form-label">User Name:</label>
+                            <input type="text" name="username" placeholder="User Name" size="100%" />                    
+                            {%if form.errors %}
+                            <div class="errMsg">{{form.errors.username}}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-outline mb-4"> 
+                            <label class="form-label">Email:</label>
+                            <input type="text" name="email" placeholder="Enter Email" size="100%" />
+                            {%if form.errors %}
+                            <div class="errMsg">{{form.errors.email}}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-outline mb-4">
+                            <label class="form-label">Phone No:</label>                   
+                            <input type="text" name="phone" placeholder="Enter Phone" size="100%" />
+                            {%if form.errors %}
+                            <div class="errMsg">{{form.errors.phone}}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-outline mb-4">
+                            <label class="form-label">Password:</label>
+                            <input type="password" name="password" placeholder="Enter Password" size="50%" />
+                            {%if form.errors %}
+                            <div class="errMsg">{{form.errors.password}}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-outline mb-4">
+                            <label class="form-label">Confirm Password:</label>
+                            <input type="password" name="confirm_password" placeholder="Re-enter Password" size="50%"  />
+                            {%if form.errors %}
+                            <div class="errMsg">{{form.errors.confirm_password}}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div>
+                            {{form.captcha}}
+                            {%if form.errors %}
+                            <div class="errMsg">{{form.errors.captcha}}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                         <!-- Checkbox -->
+                  <div class="form-check d-flex justify-content-start mb-4">
+                    <input class="form-check-input" type="checkbox"  required />
+                    <label class="form-check-label" > I Agree Terms and Conditions </label>
+                  </div>
+                    </div>
+                   </div>     
+                        
+                  <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>  
+                
+      
+                </form>
+      
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+{% endblock %}

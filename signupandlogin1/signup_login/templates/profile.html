@@ -1,0 +1,176 @@
+{%extends 'base.html'%}
+
+
+
+{%block body%}
+<style>
+  .form-label{
+    font-weight: bold;
+  }
+  
+    .errMsg{
+            color: red;
+            margin-bottom: 20px;
+            align-content: center;
+        }
+      .errSuc
+      {
+        color: rgb(9, 255, 0);
+      }
+      .focus1  {
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  border: none;
+  border-bottom: 1.5px solid #d2d2d2;
+  margin: 0 10px;
+}
+
+.focus1 {
+  border-bottom: 1.5px solid deepskyblue;
+  outline: none;
+}
+.modal-footer{
+  border: None;
+}
+</style>
+<section class="vh-100" style="background-color: #baccf0;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div style="background-color: blue;">
+          <div class="card-body p-2 text-center">
+            {%if messages %}
+              <ul class="messages"></ul>
+              {% for message in messages %}
+              {% if message.tags == 'success' %}
+                <div class="alert alert-success">{{message}}</div>
+                {% endif %}
+                {% if message.tags == 'error' %}
+                <div class="alert alert-danger">{{message}}</div>
+                {% endif %}
+                {% if message.tags == 'info' %}
+                <div class="alert alert-success">{{message}}</div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            
+            <h3 class="mb-5">MY Profile</h3>
+            </div>
+          </div>
+            <div class="form-outline mb-4">              
+              <label class="form-label" >username:</label>
+              {{ user.username }}
+            </div>
+
+            <div class="form-outline mb-4">              
+              <label class="form-label" >Email:</label>
+              {{ user.email }}
+              <a href="#" data-toggle="modal" data-target="#changeemail" >Change Email</a> 
+            </div>
+
+            <div class="form-outline mb-4">              
+              <label class="form-label" >Phone:</label>
+              {{ user.phone }}
+              
+              {%if user.phone_verify == 'True' %}
+              
+              <a href="#" class="errSuc">verified</a>
+              {%else%}
+              <a href="#" data-toggle="modal" data-target="#Phoneverify" class="errMsg">not verified</a>
+              {% endif %}
+            </div>
+
+            
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" tabindex="-1" id="changeemail">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">CHANGE EMAIL</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            
+        <form id="changeemail" action="{%url 'changeemail'%}" method="POST">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label class="col-lg-12 col-form-label form-control-label"> Enter New Email </label>                    
+            </div>
+            <div class="col-lg-12">
+                <input type="text" name="email" placeholder="Enter Email" size="50%" />
+                
+                
+            </div>
+            <input type="hidden" value="{{user.id}}" name="user_id">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Change Email</button>
+              </div>
+
+        </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  <div class="modal" tabindex="-1" id="Phoneverify">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">OTP</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <form id="sendotp" name ="sendotp" action="{%url 'send_otp'%}" method="POST">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label class="col-lg-12 col-form-label form-control-label"> OTP is send to this Number</label>                    
+            </div>
+            <div class="col-lg-12">
+                <input type="text" name="phone" placeholder="Enter Phone" size="50%" value="{{user.phone}}" />
+                
+                {% for message in messages %}
+                    {% if message.tags == 'form1' %}
+                      <div class="alert alert-danger">
+                      {{ message }}
+                      </div>
+                      {% endif %}
+                    {% endfor %}
+            </div>
+            <input type="hidden" id="successMessage" value="{% if success_message %}True{% else %}False{% endif %}">
+            <input type="hidden" value="{{user.id}}" name="user_id">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" value="submit" class="btn btn-primary" data-toggle="modal" data-target="#verifyotp" >sendotp</button>
+              </div>
+          </form>
+        
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  <div class="modal" id="verifyotp"></div>
+    {% include 'otp.html' %}
+  </div>
+  
+</section>
+
+{% endblock %}
